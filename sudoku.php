@@ -1,4 +1,4 @@
-<?
+<?php
 
 $puzzle = array (); 
 $puzzle['easy'] = /*{{{*/ <<<SUDOKU
