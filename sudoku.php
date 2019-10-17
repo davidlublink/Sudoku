@@ -170,6 +170,32 @@ Class Sudoku
           }
           echo '</table>';
      }/*}}}*/
+
+     public function displayText($ox= null, $oy = null )/*{{{*/
+     {
+          for ($y=0; $y < 9 ; $y++  )
+          {
+               for ( $x=0; $x< 9 ; $x++ )
+               {
+                    $val = $this->data[$x][$y] ;
+                    if ( $ox !== null && $x == $ox && $oy !== null && $y == $oy ) 
+                         echo '|'.$val.'|';
+                    elseif ( $val === null)
+                         echo '|'.@implode(' ', $this->possible[$x][$y]).'|';
+                    elseif ( $this->raw[$x][$y] == $this->data[$x][$y] )
+                         echo '|'.$val.'|';
+                    else
+                         echo '|'.$val .'|'; 
+                    if ( ( 1 + $x ) % 3 === 0) 
+                         echo '     ';
+               }
+               echo "\n" ;
+               echo "---------------------------------------\n";
+
+               if ( ( 1 + $y ) % 3 === 0) 
+                    echo "\n";
+          }
+     }/*}}}*/
      public function solve()/*{{{*/
      {
           $loop = 3 ;
@@ -187,8 +213,8 @@ Class Sudoku
 
                // $hit = $this->guessOneBox(); 
           }
-          if ( !$this->quiet )
-               echo "Gave up!"; 
+//          if ( !$this->quiet )
+  //             echo "Gave up!"; 
           return $this->isSolved() ;
      }/*}}}*/
      private function setPoint($x, $y, $p )/*{{{*/
@@ -208,7 +234,7 @@ Class Sudoku
                               foreach ( $this->possible[$x][$y] as $i => $p )
                               {
                                    $guess = new self( $this->export() ) ;
-                                   echo "Guessing $x $y => $p<br />";
+                                   //echo "Guessing $x $y => $p<br />";
                                    $this->display();
                                    $guess->setPoint($x, $y, $p );
                                    try
@@ -414,7 +440,7 @@ Class Sudoku
                ; //echo "<b>$why</b> <br />";
           else
           {
-               echo "$x,$y => $value ( $why ) <br />"; 
+               //echo "$x,$y => $value ( $why ) <br />"; 
                if ( !array_key_exists($why, $this->log ))
                     $this->log[$why] = 0;
                $this->log[$why]++; 
@@ -424,8 +450,8 @@ Class Sudoku
      public function __destruct()/*{{{*/
      {
           return ;
-          foreach ( $this->log  as $key => $value )
-               echo "<b>$key</b> => $value <br />";
+          foreach ( $this->log  as $key => $value ) ;
+               //echo "<b>$key</b> => $value <br />";
      }/*}}}*/
 
      private function isValid($x, $y, $a )/*{{{*/
@@ -480,12 +506,12 @@ Class Sudoku
 set_time_limit( 10 );
 $s = new Sudoku ( $puzzle['hardest'] );
 
-echo '<div style="float:left;">';
+//echo '<div style="float:left;">';
 $s->solve(); 
-echo '</div>';
-echo '<div style="float:left;">';
-$s->display(); 
-echo '</div>';
+//echo '</div>';
+//echo '<div style="float:left;">';
+$s->displayText(); 
+//echo '</div>';
 
 
 ?>
